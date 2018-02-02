@@ -23,3 +23,11 @@ Details
 =======
 
 Gencode v19 annotations were downloaded from here: https://gtexportal.org/home/datasets
+
+Conda Installation
+==================
+
+conda create --name mendelian-rnaseq-env
+source activate mendelian-rnaseq-env
+conda install -c bioconda rna-seqc
+
