@@ -18,3 +18,8 @@ Introduction
 ============
 
 Scripts for Mendelian RNA-seq analysis. More to come later...
+
+Details
+=======
+
+Gencode v19 annotations were downloaded from here: https://gtexportal.org/home/datasets
