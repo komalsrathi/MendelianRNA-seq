@@ -33,4 +33,7 @@ Conda Installation
         source activate mendelian-rnaseq-env
         conda install -c bioconda rna-seqc
         conda install -c bioconda gatk
+        conda install -c biobuilds plink
+        conda install -c bioconda star
+        conda install -c bioconda picard
 
