@@ -32,4 +32,5 @@ Conda Installation
         conda create --name mendelian-rnaseq-env
         source activate mendelian-rnaseq-env
         conda install -c bioconda rna-seqc
+        conda install -c bioconda gatk
 
