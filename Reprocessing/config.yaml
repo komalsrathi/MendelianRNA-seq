@@ -1,0 +1,9 @@
+samples: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/MendelianRNA-seq/data/samples.txt
+STAR: /mnt/isilon/cbmi/variome/rathik/tools/miniconda3/envs/mendelian-rnaseq-env/bin/STAR
+STARgenomeDir: /mnt/isilon/cbmi/variome/reference/star_db/hg19_GTEx_v6p
+annotation: /mnt/isilon/cbmi/variome/reference/gencode/v19_GTEx_v6p/gencode.v19.genes.v6p_model.patched_contigs.gtf
+aligndir: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/aligned/
+fastqdir: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/fastq/
+star1p:
+  save: Basic
+  junctions: '-'

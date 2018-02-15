@@ -1,0 +1,9 @@
+star_align_1pass:
+  h_vmem: 8G
+  mem_free: 8G
+  m_mem_free: 7G
+
+star_align_2pass:
+  h_vmem: 8G
+  mem_free: 8G
+  m_mem_free: 7G
