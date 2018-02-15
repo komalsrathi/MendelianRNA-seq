@@ -24,6 +24,11 @@ Details
 
 Gencode v19 annotations were downloaded from here: https://gtexportal.org/home/datasets
 
+Pipeline
+========
+
+Please check the Wiki for details.
+
 Conda Installation
 ==================
 
@@ -36,4 +41,5 @@ Conda Installation
         conda install -c biobuilds plink
         conda install -c bioconda star
         conda install -c bioconda picard
+        conda install -c bioconda bwa
 
