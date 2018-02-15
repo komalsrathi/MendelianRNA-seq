@@ -1,3 +1,8 @@
+#############################################
+# Author: Komal Rathi
+# Function: Creates list of CDL specific genes
+##############################################
+
 library(biomaRt)
 library(dplyr) 
 
