@@ -1,0 +1,78 @@
+
+configfile: "config.yaml"
+
+shell.prefix("source ~/.bash_profile")
+
+with open(config['samples']) as f:
+	SAMPLES = f.read().splitlines()
+
+rule all:
+	input:
+		expand(config['aligndir'] + "{file}" + "/" + "{file}_SJ.out.tab", file = SAMPLES),
+		config['aligndir'] + "final.filtered.SJout.tab"
+
+# STAR
+rule star_align_1pass:
+	input:
+		f1 = config['fastqdir'] + "{file}" + "/" + "{file}_pe_1.fq.gz",
+		f2 = config['fastqdir'] + "{file}" + "/" + "{file}_pe_2.fq.gz"
+	output:
+		out = config['aligndir'] + "{file}" + "/" + "{file}_SJ.out.tab"
+	params:
+		STAR = config['STAR'],
+		STARgenomeDir = config['STARgenomeDir'],
+		annotation = config['annotation'],
+		prefix = config['aligndir'] + "{file}" + "/" + "{file}_",
+		junctions = config['star1p']['junctions'],
+		save = config['star1p']['save']
+	threads: 4
+	shell:  
+		"""
+		echo -e '@CO\tREFID:Homo_sapiens_assembly19
+		@CO\tANNID:gencode.v19' > comments.txt
+
+		{params.STAR} \
+		--genomeDir {params.STARgenomeDir} \
+		--readFilesIn {input.f1} {input.f2} \
+		--outSAMunmapped Within \
+		--outSAMmapqUnique 60 \
+		--outSAMattributes NH HI AS NM MD \
+		--outFilterMultimapNmax 20 \
+		--outFilterMismatchNmax 999 \
+		--outFileNamePrefix {params.prefix} \
+		--alignIntronMin 20 \
+		--alignIntronMax 1000000 \
+		--alignMatesGapMax 1000000 \
+		--sjdbGTFfile {params.annotation} \
+		--sjdbFileChrStartEnd {params.junctions} \
+		--limitSjdbInsertNsj 3000000 \
+		--sjdbInsertSave {params.save} \
+		--readFilesCommand zcat \
+		--outFilterMismatchNoverReadLmax 0.07 \
+		--alignSJoverhangMin 8 \
+		--alignSJDBoverhangMin 1 \
+		--sjdbScore 1 \
+		--sjdbOverhang 100 \
+		--outFilterScoreMinOverLread 0.33 \
+		--outFilterMatchNminOverLread 0.33 \
+		--alignSoftClipAtReferenceEnds No \
+		--chimJunctionOverhangMin 15 \
+		--runThreadN {threads} \
+		--genomeLoad NoSharedMemory \
+		--limitBAMsortRAM 100000000000 \
+		--outSAMtype BAM Unsorted \
+		--outSAMheaderCommentFile comments.txt \
+		--outSAMheaderHD @HD VN:1.4 SO:coordinate
+		"""
+
+rule concate_files:
+	input: expand(config['aligndir'] + "{file}" + "/" + "{file}_SJ.out.tab", file = SAMPLES)
+	output: 
+		tmp = config['aligndir'] + "all.SJout.tab",
+		final = config['aligndir'] + "final.filtered.SJout.tab"
+	shell:
+		"""
+		cat {input} > {output.tmp}
+		awk '$1!="MT"' {output.tmp} | awk '$6~1' > {output.final}
+		awk '$1!="MT"' {output.tmp} | awk '$6~0' | awk 'int($7)>5' >> {output.final}
+		"""
