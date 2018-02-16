@@ -1,0 +1,69 @@
+
+configfile: "config.yaml"
+
+shell.prefix("source ~/.bash_profile")
+
+with open(config['samples']) as f:
+	SAMPLES = f.read().splitlines()
+
+rule all:
+	input:
+		expand(config['aligndir'] + "{file}" + "/" + "{file}_2ndpass_SJ.out.tab", file = SAMPLES)
+
+# STAR
+rule star_align_2pass:
+	input:
+		f1 = config['fastqdir'] + "{file}" + "/" + "{file}_pe_1.fq.gz",
+		f2 = config['fastqdir'] + "{file}" + "/" + "{file}_pe_2.fq.gz"
+	output:
+		out = config['aligndir'] + "{file}" + "/" + "{file}_2ndpass_SJ.out.tab"
+	params:
+		STAR = config['STAR'],
+		STARgenomeDir = config['star2p_all']['genomedir'],
+		annotation = config['annotation'],
+		prefix = config['aligndir'] + "{file}" + "/" + "{file}_2ndpass_",
+		junctions = config['star2p_all']['junctions'],
+		save = config['star2p_all']['save'],
+		sort = config['star2p_all']['sort']
+	threads: 4
+	shell:  
+		"""
+		echo -e '@CO\tREFID:Homo_sapiens_assembly19
+		@CO\tANNID:gencode.v19' > comments.txt
+
+		{params.STAR} \
+		--genomeDir {params.STARgenomeDir} \
+		--readFilesIn {input.f1} {input.f2} \
+		--outSAMunmapped Within \
+		--outSAMmapqUnique 60 \
+		--outSAMattributes NH HI AS NM MD \
+		--outFilterMultimapNmax 20 \
+		--outFilterMismatchNmax 999 \
+		--outFileNamePrefix {params.prefix} \
+		--alignIntronMin 20 \
+		--alignIntronMax 1000000 \
+		--alignMatesGapMax 1000000 \
+		--sjdbGTFfile {params.annotation} \
+		--sjdbFileChrStartEnd {params.junctions} \
+		--limitSjdbInsertNsj 3000000 \
+		--sjdbInsertSave {params.save} \
+		--readFilesCommand zcat \
+		--outFilterMismatchNoverReadLmax 0.07 \
+		--alignSJoverhangMin 8 \
+		--alignSJDBoverhangMin 1 \
+		--sjdbScore 1 \
+		--sjdbOverhang 100 \
+		--outFilterScoreMinOverLread 0.33 \
+		--outFilterMatchNminOverLread 0.33 \
+		--alignSoftClipAtReferenceEnds No \
+		--chimJunctionOverhangMin 15 \
+		--runThreadN {threads} \
+		--genomeLoad NoSharedMemory \
+		--limitBAMsortRAM 100000000000 \
+		--outSAMtype {params.sort} \
+		--outSAMstrandField intronMotif \
+		--outWigStrand Unstranded \
+		--outSAMheaderCommentFile comments.txt \
+		--outSAMheaderHD @HD VN:1.4 SO:coordinate \
+		"""
+
