@@ -17,3 +17,4 @@ star2p_all:
   junctions: '-'
   sort: 'BAM SortedByCoordinate'
   genomedir: /path/to/STAR/newly/created/STAR/genome
+picard: /mnt/isilon/cbmi/variome/rathik/tools/miniconda3/envs/mendelian-rnaseq-env/bin/picard

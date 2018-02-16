@@ -19,6 +19,7 @@ rule star_align_1pass:
 	output:
 		out = config['aligndir'] + "{file}" + "/" + "{file}_1stPass_SJ.out.tab"
 	params:
+		aligned = config['aligndir'] + "{file}" + "/",
 		STAR = config['STAR'],
 		STARgenomeDir = config['STARgenomeDir'],
 		annotation = config['annotation'],
@@ -29,6 +30,8 @@ rule star_align_1pass:
 	threads: 4
 	shell:  
 		"""
+		mkdir -p {params.aligned}
+
 		echo -e '@CO\tREFID:Homo_sapiens_assembly19
 		@CO\tANNID:gencode.v19' > comments.txt
 

@@ -1,0 +1,34 @@
+
+configfile: "config.yaml"
+
+shell.prefix("source ~/.bash_profile")
+
+with open(config['samples']) as f:
+	SAMPLES = f.read().splitlines()
+
+rule all:
+	input:
+		expand(config['aligndir'] + "{file}" + "/" + "{file}.sorted.deduped.bam", file = SAMPLES)
+
+# picard
+rule picard_dedup:
+	input:
+		bam = config['aligndir'] + "{file}" + "/" + "{file}_2ndpass_Aligned.sortedByCoord.out.bam"
+	output:
+		bam = config['aligndir'] + "{file}" + "/" + "{file}.sorted.deduped.bam",
+		metrics = config['aligndir'] + "{file}" + "/" + "{file}.sorted.deduped.metrics"
+	params:
+		picard = config['picard']
+	threads: 4
+	shell:  
+		"""
+		java -jar -Xmx20g {params.picard} MarkDuplicates \
+		INPUT={input.bam} \
+		OUTPUT={output.bam} \
+		METRICS_FILE={output.metrics} \
+		CREATE_INDEX=TRUE \
+		SORTING_COLLECTION_SIZE_RATIO=0.1 \
+		ASSUME_SORTED=TRUE \
+		VALIDATION_STRINGENCY=LENIENT
+		"""
+
