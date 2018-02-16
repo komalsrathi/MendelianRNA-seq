@@ -8,7 +8,7 @@ with open(config['samples']) as f:
 
 rule all:
 	input:
-		expand(config['aligndir'] + "{file}" + "/" + "{file}_SJ.out.tab", file = SAMPLES),
+		expand(config['aligndir'] + "{file}" + "/" + "{file}_1stPass_SJ.out.tab", file = SAMPLES),
 		config['aligndir'] + "final.filtered.SJout.tab"
 
 # STAR
@@ -17,14 +17,15 @@ rule star_align_1pass:
 		f1 = config['fastqdir'] + "{file}" + "/" + "{file}_pe_1.fq.gz",
 		f2 = config['fastqdir'] + "{file}" + "/" + "{file}_pe_2.fq.gz"
 	output:
-		out = config['aligndir'] + "{file}" + "/" + "{file}_SJ.out.tab"
+		out = config['aligndir'] + "{file}" + "/" + "{file}_1stPass_SJ.out.tab"
 	params:
 		STAR = config['STAR'],
 		STARgenomeDir = config['STARgenomeDir'],
 		annotation = config['annotation'],
-		prefix = config['aligndir'] + "{file}" + "/" + "{file}_",
+		prefix = config['aligndir'] + "{file}" + "/" + "{file}_1stPass_",
 		junctions = config['star1p']['junctions'],
-		save = config['star1p']['save']
+		save = config['star1p']['save'],
+		sort = config['star1p']['sort']
 	threads: 4
 	shell:  
 		"""
@@ -60,13 +61,15 @@ rule star_align_1pass:
 		--runThreadN {threads} \
 		--genomeLoad NoSharedMemory \
 		--limitBAMsortRAM 100000000000 \
-		--outSAMtype BAM Unsorted \
+		--outSAMtype {params.sort} \
+		--outSAMstrandField intronMotif \
+		--outWigStrand Unstranded \
 		--outSAMheaderCommentFile comments.txt \
 		--outSAMheaderHD @HD VN:1.4 SO:coordinate
 		"""
 
 rule concate_files:
-	input: expand(config['aligndir'] + "{file}" + "/" + "{file}_SJ.out.tab", file = SAMPLES)
+	input: expand(config['aligndir'] + "{file}" + "/" + "{file}_1stPass_SJ.out.tab", file = SAMPLES)
 	output: 
 		tmp = config['aligndir'] + "all.SJout.tab",
 		final = config['aligndir'] + "final.filtered.SJout.tab"
