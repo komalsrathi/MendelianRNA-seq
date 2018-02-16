@@ -7,3 +7,13 @@ fastqdir: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/fastq/
 star1p:
   save: Basic
   junctions: '-'
+  sort: 'BAM Unsorted'
+star2p:
+  save: All
+  junctions: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/aligned/final.filtered.SJout.tab
+  sort: 'BAM SortedByCoordinate'
+star2p_all:
+  save: Basic
+  junctions: '-'
+  sort: 'BAM SortedByCoordinate'
+  genomedir: /path/to/STAR/newly/created/STAR/genome
