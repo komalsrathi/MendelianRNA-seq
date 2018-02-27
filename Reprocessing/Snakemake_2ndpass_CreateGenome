@@ -7,6 +7,7 @@ with open(config['samples']) as f:
 	SAMPLES = f.read().splitlines()
 
 	SAMPLES = SAMPLES[1] # just pick the first sample
+	print(SAMPLES)
 
 rule all:
 	input:
@@ -22,11 +23,11 @@ rule star_align_2pass:
 	params:
 		STAR = config['STAR'],
 		STARgenomeDir = config['STARgenomeDir'],
-		annotation = config['annotation'],
 		prefix = config['aligndir'] + "{file}" + "/" + "{file}_genome_",
 		junctions = config['star2p']['junctions'],
 		save = config['star2p']['save'],
-		sort = config['star2p']['sort']
+		sort = config['star2p']['sort'],
+		annotation = config['annotation']
 	threads: 4
 	shell:  
 		"""
@@ -54,7 +55,7 @@ rule star_align_2pass:
 		--alignSJoverhangMin 8 \
 		--alignSJDBoverhangMin 1 \
 		--sjdbScore 1 \
-		--sjdbOverhang 100 \
+		--sjdbOverhang 99 \
 		--outFilterScoreMinOverLread 0.33 \
 		--outFilterMatchNminOverLread 0.33 \
 		--alignSoftClipAtReferenceEnds No \
@@ -67,5 +68,6 @@ rule star_align_2pass:
 		--outWigStrand Unstranded \
 		--outSAMheaderCommentFile comments.txt \
 		--outSAMheaderHD @HD VN:1.4 SO:coordinate \
+		--genomeSAindexNbases 12
 		"""
 

@@ -22,7 +22,7 @@ rule picard_dedup:
 	threads: 4
 	shell:  
 		"""
-		java -jar -Xmx20g {params.picard} MarkDuplicates \
+		{params.picard} MarkDuplicates \
 		INPUT={input.bam} \
 		OUTPUT={output.bam} \
 		METRICS_FILE={output.metrics} \
