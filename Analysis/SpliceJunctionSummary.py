@@ -38,7 +38,7 @@ def printSplices(SpliceFile):
 			item = "%s:%s"%(pair,d[key][pair]) 
 			col3.append(item)
 		SamplesNSeen =  ",".join(col3)
-		print "\t".join([str(Gene),str(GeneType),str(Chrom),str(Start),str(End),str(NTimesSeen),str(nSamplesSeen),str(SamplesNSeen)])
+		print("\t".join([str(Gene),str(GeneType),str(Chrom),str(Start),str(End),str(NTimesSeen),str(nSamplesSeen),str(SamplesNSeen)]))
 	
 
 if __name__=="__main__":
