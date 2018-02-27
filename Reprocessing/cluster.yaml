@@ -12,3 +12,8 @@ picard_dedup:
   h_vmem: 8G
   mem_free: 8G
   m_mem_free: 7G
+
+concate_files:
+  h_vmem: 4G
+  mem_free: 2G
+  m_mem_free: 2G

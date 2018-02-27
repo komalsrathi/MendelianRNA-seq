@@ -1,5 +1,5 @@
 samples: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/MendelianRNA-seq/data/samples.txt
-STAR: /mnt/isilon/cbmi/variome/rathik/tools/miniconda3/envs/mendelian-rnaseq-env/bin/STAR
+STAR: /mnt/isilon/cbmi/variome/bin/STAR-2.5.4b/bin/Linux_x86_64/STAR
 STARgenomeDir: /mnt/isilon/cbmi/variome/reference/star_db/hg19_GTEx_v6p
 annotation: /mnt/isilon/cbmi/variome/reference/gencode/v19_GTEx_v6p/gencode.v19.genes.v6p_model.patched_contigs.gtf
 aligndir: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/aligned/
@@ -12,9 +12,11 @@ star2p:
   save: All
   junctions: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/aligned/final.filtered.SJout.tab
   sort: 'BAM SortedByCoordinate'
+  annotation: '-'
 star2p_all:
   save: Basic
   junctions: '-'
   sort: 'BAM SortedByCoordinate'
-  genomedir: /path/to/STAR/newly/created/STAR/genome
+  genomedir: /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/aligned/2ndPass_genome
+  annotation: '-'
 picard: /mnt/isilon/cbmi/variome/rathik/tools/miniconda3/envs/mendelian-rnaseq-env/bin/picard
