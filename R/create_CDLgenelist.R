@@ -26,3 +26,8 @@ res <- res %>% filter(refseq_mrna != "") %>%
 
 write.table(res, file = 'data/CDL_genes.list', quote = F, sep = "\t", row.names = F)
 
+# for analysis
+dat <- read.delim('/mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/MendelianRNA-seq/data/CDL_genes.list', check.names = F)
+dat <- unique(dat[,c('hgnc_symbol','ensembl_gene_id','strand','chromosome_name','start_position','end_position','gene_biotype')])
+write.table(dat, file = '/mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/MendelianRNA-seq/data/CDL_genes_analysis_input.list', quote = F, sep = "\t", row.names = F, col.names = F)
+

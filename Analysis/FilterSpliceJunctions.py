@@ -105,7 +105,7 @@ def filter(args):
 		
 			line_to_print  =   "\t".join(new_line)
 			if args.print_simple:
-				print line_to_print
+				print(line_to_print)
 			else:
 				A = re.sub(r'([,|\t][\d|\.]+:[-|\w|\.]+\t)', Fore.RED + r'\1' + Fore.RESET, line_to_print)
 				B = re.sub(r'([,|.|\d][\.|\d]+:[\w|\-|A-Z|\s|\.]+)$', Fore.GREEN + r'\1' + Fore.RESET, A)
@@ -113,7 +113,7 @@ def filter(args):
 				if args.add_OMIM:
 					B = re.sub(r'([,|.|\d][\.|\d]+:[\w|\-|A-Z|\s|\.]+\t)', Fore.GREEN + r'\1' + Fore.RESET, A)
 
-				print B
+				print(B)
 
 
 def apply_normalized(new_l , norm_counts , k_samps , norm_times_last = None , normalized_min = None , normalizedonlysample = None):
@@ -175,7 +175,7 @@ def make_omim_dic(omimtable):
 	with open(omimtable) as inp:
 		for line in inp:
 			genes ,  hgnc_synonyms ,  hgnc_genes ,  phenotype ,  phenotype_inheritance ,  gene_mim_number ,  phenotye_mim_number ,  chrom ,  comments  =  line.strip().split("\t") 
-	 		gene_list   =  genes.split("|")
+			gene_list   =  genes.split("|")
 			for gene in gene_list:
 				if gene not in d:
 					d[gene]   =  []
@@ -185,8 +185,8 @@ def make_omim_dic(omimtable):
 
 def reshape_omim_info(list_of_omim_input):
 	iters  =  [iter(x) for x in list_of_omim_input]
-	combined  =  iter(it.next() for it in itertools.cycle(iters))
-	combinedv2  =   [','.join(each) for each in itertools.izip(combined , combined)]	
+	combined  =  iter(it.__next__() for it in itertools.cycle(iters))
+	combinedv2  =   [','.join(each) for each in zip(combined , combined)]	
 	return combinedv2
 
 
@@ -224,7 +224,7 @@ if __name__ == "__main__":
 	
 	gene_lists_group  =  parser.add_argument_group("Gene lists")
 	gene_lists_group.add_argument('-add_OMIM' , help = 'Add OMIM information' , action = 'store_true')
-	gene_lists_group.add_argument('-OMIM_file' , help = 'Parsed OMIM table, updated versions can be obtained from https://github.com/macarthur-lab/gene_lists' , action = 'store' , default = '/humgen/atgu1/fs03/berylc/MacGit/gene_lists/other_data/omim.use.tsv')
+	gene_lists_group.add_argument('-OMIM_file' , help = 'Parsed OMIM table, updated versions can be obtained from https://github.com/macarthur-lab/gene_lists' , action = 'store' , default = '/mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/MendelianRNA-seq/data/omim.use.tsv')
 	gene_lists_group.add_argument('-only_OMIM' , help  =  'Only output splicing events seen in OMIM genes' ,  action  =  'store_true')
 	gene_lists_group.add_argument('-genes' , help = 'Check splicing in a specific list of genes. Submit a file with genes or comma-seperated string' , action = 'store')
 	

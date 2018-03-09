@@ -33,8 +33,8 @@ def get_flank(pos):
 
 def sort_floats(pair_list,type="float"):
 	'''Sorting SampleName:Nread by read count to place the highest at the end and colour t'''
- 	count_dict = {}
- 	sorted_floats = []
+	count_dict = {}
+	sorted_floats = []
 	for pair in pair_list:
 		sample,n_reads = pair.split(":")
 		if "*" in n_reads: #If the annotated junction doesn't align reads currently not able to detect them efficiently 
@@ -66,7 +66,7 @@ def get_unannotated_junctions(splicefile,annotated,chrom_col,start_col,stop_col)
 			if q in annotated: 
 				continue
 			else: 
-				print spliceline.strip()
+				print(spliceline.strip())
 
 
 def get_annotated_counts(splicefile,annotated):
@@ -93,7 +93,7 @@ def get_annotated_counts(splicefile,annotated):
 						pair_ntimes = pair.split(":")[1]
 						if pair_sample not in splice_dict[pos]:
 							splice_dict[pos][pair_sample]=int(pair_ntimes)
-				if pos in splice_dict: 												#If the position is in dictionary, then update on a per sample basis to get the max splice junction reads
+				if pos in splice_dict:											#If the position is in dictionary, then update on a per sample basis to get the max splice junction reads
 					current_counts = splice_dict[pos]
 					for pair in samptimes.split(","):
 						pair_sample = pair.split(":")[0]
@@ -107,9 +107,9 @@ def get_annotated_counts(splicefile,annotated):
 
 def normalize_counts(splicefile,annotated_counts): 
 	with open(splicefile) as inp:
-	 	for spliceline in inp:
-	 		if "Chrom" in spliceline:
-	 			continue
+		for spliceline in inp:
+			if "Chrom" in spliceline:
+				continue
 			normalizedCol = []
 			gene,gene_type,chrom,start,stop,ntimes,nsamp,samptimes = spliceline.strip().split("\t")  
 			#For printing later 
@@ -134,7 +134,7 @@ def normalize_counts(splicefile,annotated_counts):
 					normalizedCol.append("%s:%s"%(pair_sample,normalized))
 				normalizedCol_sorted = sort_floats(normalizedCol)
 				line_to_print = "\t".join([gene,gene_type,full_junction,ntimes,nsamp,",".join(samptimes_sorted) ,tag,",".join(normalizedCol_sorted)])
-				print line_to_print
+				print(line_to_print)
 				continue
 			if annotated_start or annotated_stop:										#When one end of splice junction is annotated: exon extension and intron inclusion
 				tag = "One annotated"
@@ -150,12 +150,12 @@ def normalize_counts(splicefile,annotated_counts):
 					normalizedCol.append("%s:%s"%(pair_sample,normalized))
 				normalizedCol_sorted = sort_floats(normalizedCol)
 				line_to_print = "\t".join([gene,gene_type,full_junction,ntimes,nsamp,",".join(samptimes_sorted) ,tag,",".join(normalizedCol_sorted)])
-				print line_to_print
+				print(line_to_print)
 				continue
 			if annotated_stop is None and annotated_stop is None:
 				tag = "Neither annotated"
-			 	line_to_print = "\t".join([gene,gene_type,full_junction,ntimes,nsamp,",".join(samptimes_sorted),tag,"-"])
-				print line_to_print
+				line_to_print = "\t".join([gene,gene_type,full_junction,ntimes,nsamp,",".join(samptimes_sorted),tag,"-"])
+				print(line_to_print)
 
 			
 
@@ -179,7 +179,7 @@ def main(args):
 
 if __name__=="__main__":
 	parser = argparse.ArgumentParser(description = '''Get unannotated junctions from splice file''')
-	parser.add_argument('-transcript_model',help="Transcript model of canonical splicing, e.g. gencode v19. Default is /humgen/atgu1/fs03/berylc/MuscDisease/bin/references/gencode.comprehensive.splice.junctions.txt",action='store',default = "/humgen/atgu1/fs03/berylc/MuscDisease/bin/references/gencode.comprehensive.splice.junctions.txt")
+	parser.add_argument('-transcript_model',help="Transcript model of canonical splicing, e.g. gencode v19. Default is gencode.comprehensive.splice.junctions.txt",action='store',default = "/mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/MendelianRNA-seq/data/gencode.comprehensive.splice.junctions.txt")
 	parser.add_argument('-splice_file',help='Splice junction file to filter')
 	parser.add_argument('-gzipped', help='Add if sjout file is gzipped',action='store_true')
 	parser.add_argument('-chrom_col',help='Chromosome column',type=int,default=0)
