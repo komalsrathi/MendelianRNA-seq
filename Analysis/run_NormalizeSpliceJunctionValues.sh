@@ -1,0 +1,1 @@
+python NormalizeSpliceJunctionValues.py -splice_file All.CDL_genes_analysis_input.list.splicing.txt --normalize > /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/splice-events/All.CDL_genes.normalized.splicing.txt
