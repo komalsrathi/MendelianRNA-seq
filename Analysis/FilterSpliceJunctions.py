@@ -1,7 +1,7 @@
 
 import sys ,  argparse , re , itertools
 from operator import add
-from colorama import init ,  Fore
+# from colorama import init ,  Fore
 
 
 def filter(args):
