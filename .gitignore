@@ -3,3 +3,6 @@ data/*
 example/*
 Reprocessing/.snakemake/
 Reprocessing/comments.txt
+Analysis/run_SpliceJunctionDiscovery_hg19.sh
+Analysis/run_FilterSpliceJunctions_Allsamples_new.sh
+Analysis/run_FilterSpliceJunctions_new.sh
