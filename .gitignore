@@ -2,6 +2,7 @@ logs/*
 data/*
 example/*
 Reprocessing/.snakemake/
+Reprocessing/Archive/
 Reprocessing/comments.txt
 Analysis/run_SpliceJunctionDiscovery_hg19.sh
 Analysis/run_FilterSpliceJunctions_Allsamples_new.sh
