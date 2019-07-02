@@ -44,4 +44,5 @@ Conda Installation
         conda install -c bioconda picard
         conda install -c bioconda bwa
         conda install -c anaconda colorama
+        conda install -c bioconda misopy
 
