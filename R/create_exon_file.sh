@@ -1,3 +1,7 @@
+# Author: Komal S. Rathi
+# Date: 02/15/2018
+# Function: Create sample sheet (one sample per line)
+
 # only use CDS regions for 15 CdLS genes
 grep -P '\tCDS\t' /mnt/isilon/cbmi/variome/rathik/mendelian_rnaseq/annotation/gencode.v19.transcripts.patched_contigs.gtf |  grep -e \"AFF4\" -e \"ANKRD11\" -e \"ASXL1\" -e \"ASXL3\" -e \"HDAC8\" -e \"NIPBL\" -e \"PACS1\" -e \"RAD21\" -e \"SMC1A\" -e \"SMC3\" -e \"STAG2\" -e \"TAF1\" -e \"TAF6\" -e \"WDR26\" -e \"BRD4\"  | awk '{
 for (i = 1; i <= NF; i++){
