@@ -10,5 +10,4 @@ Reprocessing/strelka_germline_2ndpass.pl
 Analysis/run_SpliceJunctionDiscovery_hg19.sh
 Analysis/run_FilterSpliceJunctions_Allsamples_new.sh
 Analysis/run_FilterSpliceJunctions_new.sh
-TriplicateRegionRemapping/*
-QC/*
+Archive/*
