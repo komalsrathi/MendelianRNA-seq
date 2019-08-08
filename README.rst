@@ -17,7 +17,10 @@ Mendelian RNA-Seq
 Introduction
 ============
 
-Scripts for Mendelian RNA-seq analysis. More to come later...
+Contains scripts for:
+
+    - Processing RNA-sequencing data from GTEx normal tissue and CdLS patient samples. 
+    - Abnormal splice junction identification and filtering pipeline. 
 
 Details
 =======
